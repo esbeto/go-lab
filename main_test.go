@@ -39,15 +39,19 @@ func TestAlgorithm(t *testing.T) {
 	}{
 		{
 			Domain: "alpha",
-			Output: "",
+			Output: "[\"alpha\"]",
 		},
 		{
 			Domain: "omega",
-			Output: "",
+			Output: "[\"alpha\",\"omega\"]",
 		},
 		{
 			Domain: "alpha",
-			Output: "",
+			Output: "[\"alpha\",\"alpha\",\"omega\"]",
+		},
+		{
+			Domain: "beta",
+			Output: "[\"alpha\",\"alpha\",\"beta\",\"omega\"]",
 		},
 		{
 			Domain: "",
