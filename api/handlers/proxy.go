@@ -3,7 +3,7 @@ package handlers
 import (
 	"encoding/json"
 
-	"github.com/edenriquez/proxy-app/api/middleware"
+	"github.com/esbeto/go-lab/api/middleware"
 	"github.com/kataras/iris"
 )
 

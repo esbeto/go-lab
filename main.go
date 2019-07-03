@@ -9,6 +9,6 @@ import (
 func main() {
 	utils.LoadEnv()
 	app := server.SetUp()
-	handlers.Handleredirection(app)
+	handlers.HandlerRedirection(app)
 	server.RunServer(app)
 }
