@@ -20,7 +20,7 @@ type Queue struct {
 }
 
 // Que declaration
-var Que []string
+var Que []*Queue
 
 // Repository should implement common methods
 type Repository interface {
@@ -102,13 +102,9 @@ func ProxyMiddleware(c iris.Context) {
 	var repo Repository
 	repo = &Queue{}
 
-	var lowQueue []
-	var medQueue []
-	var highQueue []
-
-	lowQueue = append(lowQueue, &Queue{})
-	medQueue = append(medQueue, &Queue{})
-	highQueue = append(highQueue, &Queue{})
+	var lowQueue []*Queue
+	var medQueue []*Queue
+	var highQueue []*Queue
 
 	for _, row := range repo.Read() {
 		tempQueue := &Queue{}
@@ -126,9 +122,9 @@ func ProxyMiddleware(c iris.Context) {
 		}
 	}
 
-	highMed := append(highQueue, medQueue)
-	highMedLow := append(highMed, lowQueue)
-	Que = append(Que, highMedLow)
+	highMed := append(highQueue, medQueue...)
+	highMedLow := append(highMed, lowQueue...)
+	Que = append(Que, highMedLow...)
 
 	c.Next()
 }
