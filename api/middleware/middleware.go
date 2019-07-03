@@ -20,7 +20,11 @@ type Queue struct {
 }
 
 // Que declaration
-var Que []*Queue
+var Que []string
+
+var lowQue []string
+var medQue []string
+var highQue []string
 
 // Repository should implement common methods
 type Repository interface {
@@ -31,7 +35,7 @@ type Repository interface {
 func GetLastCharAsInt(s string) int {
 	last := string(s[len(s)-1])
 	value, err := strconv.Atoi(last)
-	if err == nil {
+	if err != nil {
 		fmt.Println(value)
 	}
 	return value
@@ -54,6 +58,7 @@ func (q *Queue) Read() []*Queue {
 		text := scanner.Text()
 		if text == "" {
 			index = 0
+			tempQueue = &Queue{}
 			continue
 		}
 		if index == 0 {
@@ -102,29 +107,23 @@ func ProxyMiddleware(c iris.Context) {
 	var repo Repository
 	repo = &Queue{}
 
-	var lowQueue []*Queue
-	var medQueue []*Queue
-	var highQueue []*Queue
-
 	for _, row := range repo.Read() {
-		tempQueue := &Queue{}
-		tempQueue.Domain = row.Domain
-		tempQueue.Weight = row.Weight
-		tempQueue.Priority = row.Priority
-
-		priorityValue := PrioritizationValue(row.Weight, row.Priority)
-		if priorityValue == "high" {
-			highQueue = append(highQueue, tempQueue)
-		} else if priorityValue == "medium" {
-			medQueue = append(medQueue, tempQueue)
-		} else {
-			lowQueue = append(lowQueue, tempQueue)
+		if domain == row.Domain {
+			priorityValue := PrioritizationValue(row.Weight, row.Priority)
+			if priorityValue == "high" {
+				highQue = append(highQue, domain)
+			} else if priorityValue == "medium" {
+				medQue = append(medQue, domain)
+			} else {
+				lowQue = append(lowQue, domain)
+			}
 		}
 	}
 
-	highMed := append(highQueue, medQueue...)
-	highMedLow := append(highMed, lowQueue...)
-	Que = append(Que, highMedLow...)
+	highMed := append(highQue, medQue...)
+	highMedLow := append(highMed, lowQue...)
+
+	Que = highMedLow
 
 	c.Next()
 }
