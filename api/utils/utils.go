@@ -1,8 +1,10 @@
 package utils
 
-import "github.com/joho/godotenv"
+import (
+	env "github.com/joho/godotenv"
+)
 
-// LoadEnv will load environment variables
+// LoadEnv should load .env file
 func LoadEnv() {
-	godotenv.Load()
+	env.Load()
 }

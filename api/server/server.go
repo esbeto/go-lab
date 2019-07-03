@@ -6,14 +6,14 @@ import (
 	"github.com/kataras/iris"
 )
 
-// SetUp will initialize the iris application
+// SetUp server
 func SetUp() *iris.Application {
 	app := iris.New()
 	app.Logger().SetLevel("debug")
 	return app
 }
 
-// RunServer will run the iris application
+// RunServer should start server
 func RunServer(app *iris.Application) {
 	app.Run(
 		iris.Addr(os.Getenv("PORT")),
